@@ -12,7 +12,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Request, Response } from 'express';
 import { Model } from 'mongoose';
 
-import { ActivateUserDto, RegisterDto } from './dto';
+import { ActivateUserDto, LoginSocialDto, RegisterDto } from './dto';
 import { LoginDto } from './dto/login.dto';
 import { User } from './schemas/user.schema';
 
@@ -157,6 +157,43 @@ export class AuthService {
 
       return this.sendToken(exisUser, 200, res);
     } catch (error: any) {
+      throw new ForbiddenException(error.message);
+    }
+  }
+
+  /**
+   * @method loginSocial
+   * @description Login social
+   * @param body LoginSocialDto
+   * @param res Response
+   */
+  async loginSocial(body: LoginSocialDto, res: Response) {
+    try {
+      const { avatar, email, name } = body;
+
+      const user = await this.userModel.findOne({ email });
+
+      if (!user) {
+        const newUser = await this.userModel.create({
+          avatar,
+          email,
+          isVerified: true,
+          name,
+        });
+
+        this.sendToken(newUser, 200, res);
+      } else {
+        user.avatar = avatar;
+
+        user.isVerified = true;
+
+        user.name = name;
+
+        await user.save();
+
+        this.sendToken(user, 200, res);
+      }
+    } catch (error) {
       throw new ForbiddenException(error.message);
     }
   }

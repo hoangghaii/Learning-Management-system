@@ -10,7 +10,7 @@ import {
 import { Request, Response } from 'express';
 
 import { AuthService } from './auth.service';
-import { ActivateUserDto, LoginDto, RegisterDto } from './dto';
+import { ActivateUserDto, LoginDto, LoginSocialDto, RegisterDto } from './dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 
 @Controller('auth')
@@ -25,6 +25,11 @@ export class AuthController {
   @Post('login')
   login(@Body() body: LoginDto, @Res() res: Response) {
     return this.authService.login(body, res);
+  }
+
+  @Post('login-socical')
+  loginSocial(@Body() body: LoginSocialDto, @Res() res: Response) {
+    return this.authService.loginSocial(body, res);
   }
 
   @UseGuards(JwtAuthGuard)
