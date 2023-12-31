@@ -7,11 +7,11 @@ export class RedisCacheService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   async del(key: string) {
-    await this.cacheManager.del(key);
+    await this.cacheManager.del(key.toString());
   }
 
   async get<T>(key: string) {
-    await this.cacheManager.get<T>(key);
+    await this.cacheManager.get<T>(key.toString());
   }
 
   async reset() {
@@ -19,6 +19,6 @@ export class RedisCacheService {
   }
 
   async set(key: string, value: unknown) {
-    await this.cacheManager.set(key, value);
+    await this.cacheManager.set(key.toString(), value);
   }
 }

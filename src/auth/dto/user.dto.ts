@@ -1,3 +1,4 @@
+import { UserRole } from '@/consts';
 import { Transform } from 'class-transformer';
 import {
   IsBoolean,
@@ -8,12 +9,6 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-
-export enum UserRole {
-  ADMIN = 'admin',
-  BLOGGER = 'blogger',
-  USER = 'user',
-}
 
 export class UserDto {
   @IsString()

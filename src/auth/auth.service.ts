@@ -1,5 +1,5 @@
 import { MailService } from '@/mail/mail.service';
-import { _log } from '@/utils/_log';
+import { RedisCacheService } from '@/redis-cache/redis-cache.service';
 import {
   BadRequestException,
   ForbiddenException,
@@ -58,6 +58,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private mailService: MailService,
+    private redisCacheService: RedisCacheService,
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
@@ -155,6 +156,8 @@ export class AuthService {
         throw new UnauthorizedException('Please verify your email');
       }
 
+      this.redisCacheService.set(exisUser._id, exisUser);
+
       return this.sendToken(exisUser, 200, res);
     } catch (error: any) {
       throw new ForbiddenException(error.message);
@@ -181,6 +184,8 @@ export class AuthService {
           name,
         });
 
+        this.redisCacheService.set(newUser._id, newUser);
+
         this.sendToken(newUser, 200, res);
       } else {
         user.avatar = avatar;
@@ -190,6 +195,8 @@ export class AuthService {
         user.name = name;
 
         await user.save();
+
+        this.redisCacheService.set(user._id, user);
 
         this.sendToken(user, 200, res);
       }
@@ -211,7 +218,7 @@ export class AuthService {
 
       res.cookie('refreshToken', '', { maxAge: 1 });
 
-      _log('running here');
+      this.redisCacheService.del((req as any).user._id);
 
       return res.status(200).json({
         message: 'Logged out successfully',

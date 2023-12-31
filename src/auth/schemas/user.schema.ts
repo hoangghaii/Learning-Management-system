@@ -1,3 +1,4 @@
+import { Course } from '@/course/schemas/course.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import mongoose, { Document, HydratedDocument } from 'mongoose';
@@ -21,19 +22,12 @@ export class User extends Document {
   @Prop({
     type: [
       {
-        courseId: {
-          ref: 'Course',
-          type: mongoose.Schema.Types.ObjectId,
-        },
+        ref: 'Course',
+        type: mongoose.Schema.Types.ObjectId,
       },
     ],
   })
-  courses: {
-    courseId: {
-      ref: 'Course';
-      type: mongoose.Schema.Types.ObjectId;
-    };
-  }[];
+  courses: Course[];
 
   @Prop({
     required: [true, 'Email is required'],

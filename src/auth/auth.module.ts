@@ -1,4 +1,5 @@
 import { MailModule } from '@/mail/mail.module';
+import { RedisCacheModule } from '@/redis-cache/redis-cache.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -12,6 +13,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 @Module({
   controllers: [AuthController],
   imports: [
+    RedisCacheModule,
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MailModule,
     JwtModule.registerAsync({

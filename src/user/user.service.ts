@@ -58,10 +58,14 @@ export class UserService {
 
       await user.save();
 
+      const savedUser = await this.userModel
+        .findById((req as any).user._id)
+        .select('-password');
+
       return {
         message: 'Update avatar successfully',
+        savedUser,
         success: true,
-        user,
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message);
@@ -91,10 +95,14 @@ export class UserService {
 
       await user.save();
 
+      const savedUser = await this.userModel
+        .findById((req as any).user._id)
+        .select('-password');
+
       return {
         message: 'Update info successfully',
+        savedUser,
         success: true,
-        user,
       };
     } catch (error) {
       throw new InternalServerErrorException(error.message);

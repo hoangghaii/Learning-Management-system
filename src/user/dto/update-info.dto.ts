@@ -1,3 +1,4 @@
+import { UserRole } from '@/consts';
 import { Transform } from 'class-transformer';
 import {
   IsEmail,
@@ -6,12 +7,6 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
-
-enum UserRole {
-  ADMIN = 'admin',
-  BLOGGER = 'blogger',
-  USER = 'user',
-}
 
 export class UpdateInfoDto {
   @IsString()
