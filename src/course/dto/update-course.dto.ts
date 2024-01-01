@@ -1,6 +1,6 @@
+import { FileUploadedDto } from '@/common/dto/file-uploaded.dto';
 import { Type } from 'class-transformer';
 import {
-  IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
@@ -11,40 +11,43 @@ import { BenefitDto } from './benefit.dto';
 import { CourseDataDto } from './course-data.dto';
 import { ReviewDto } from './review.dto';
 
-export class CourseDto {
+export class UpdateCourseDto {
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => BenefitDto)
   benefits: BenefitDto[];
 
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => CourseDataDto)
   courseData: CourseDataDto[];
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   demoUrl: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   description: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   estimatePrice: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   level: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   name: string;
 
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => BenefitDto)
   prerequisites: BenefitDto[];
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   price: number;
 
@@ -56,15 +59,17 @@ export class CourseDto {
   @IsNumber()
   rating: number = 0;
 
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ReviewDto)
   reviews: ReviewDto[];
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   tags: string;
 
-  @IsNotEmpty()
-  @IsString()
-  thumbnail: string;
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => FileUploadedDto)
+  thumnail: FileUploadedDto;
 }

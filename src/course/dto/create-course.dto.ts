@@ -1,3 +1,4 @@
+import { FileUploadedDto } from '@/common/dto/file-uploaded.dto';
 import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
@@ -65,6 +66,7 @@ export class CreateCourseDto {
   tags: string;
 
   @IsNotEmpty()
-  @IsString()
-  thumnail: string;
+  @ValidateNested()
+  @Type(() => FileUploadedDto)
+  thumnail: FileUploadedDto;
 }

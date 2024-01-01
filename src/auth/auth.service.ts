@@ -1,3 +1,4 @@
+import { FileUploaded } from '@/common/schema/file-uploaded.schema';
 import { MailService } from '@/mail/mail.service';
 import { RedisCacheService } from '@/redis-cache/redis-cache.service';
 import {
@@ -188,10 +189,9 @@ export class AuthService {
 
         this.sendToken(newUser, 200, res);
       } else {
-        user.avatar = avatar;
+        user.avatar = avatar as FileUploaded; // Cast 'avatar' to the correct type
 
         user.isVerified = true;
-
         user.name = name;
 
         await user.save();

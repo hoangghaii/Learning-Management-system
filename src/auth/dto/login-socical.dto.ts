@@ -1,9 +1,18 @@
-import { IsEmail, IsNotEmpty, IsString, MaxLength } from 'class-validator';
+import { FileUploadedDto } from '@/common/dto/file-uploaded.dto';
+import { Type } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  ValidateNested,
+} from 'class-validator';
 
 export class LoginSocialDto {
   @IsNotEmpty()
-  @IsString()
-  avatar: string;
+  @ValidateNested()
+  @Type(() => FileUploadedDto)
+  avatar: FileUploadedDto;
 
   @IsEmail()
   @IsNotEmpty()

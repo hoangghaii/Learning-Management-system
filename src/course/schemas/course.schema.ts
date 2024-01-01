@@ -1,3 +1,7 @@
+import {
+  FileUploaded,
+  FileUploadedSchema,
+} from '@/common/schema/file-uploaded.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 
@@ -86,9 +90,9 @@ export class Course extends Document {
 
   @Prop({
     required: [true, 'Please fill course thumnail'],
-    type: String,
+    type: FileUploadedSchema,
   })
-  thumnail: string;
+  thumnail: FileUploaded;
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);

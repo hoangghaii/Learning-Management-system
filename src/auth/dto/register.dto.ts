@@ -1,15 +1,19 @@
+import { FileUploadedDto } from '@/common/dto/file-uploaded.dto';
+import { Type } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
 
 export class RegisterDto {
   @IsOptional()
-  @IsString()
-  avatar?: string;
+  @ValidateNested()
+  @Type(() => FileUploadedDto)
+  avatar: FileUploadedDto;
 
   @IsEmail()
   @IsNotEmpty()

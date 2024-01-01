@@ -1,3 +1,7 @@
+import {
+  FileUploaded,
+  FileUploadedSchema,
+} from '@/common/schema/file-uploaded.schema';
 import { Course } from '@/course/schemas/course.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
@@ -16,8 +20,8 @@ export type UserDocument = HydratedDocument<User>;
   timestamps: true,
 })
 export class User extends Document {
-  @Prop({ default: '', type: String })
-  avatar: string;
+  @Prop({ required: false, type: FileUploadedSchema })
+  avatar: FileUploaded;
 
   @Prop({
     type: [

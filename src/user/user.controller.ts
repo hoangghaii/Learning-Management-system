@@ -7,15 +7,11 @@ import {
   Post,
   Req,
   Res,
-  UploadedFile,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 
 import { UpdateInfoDto, UpdatePasswordDto } from './dto';
-import { FileSizeValidationPipe } from './pipe/file-validator.pipe';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -26,17 +22,6 @@ export class UserController {
   @Get('me')
   getMe(@Req() req: Request, @Res() res: Response) {
     return this.userService.getMe(req, res);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('update-avatar')
-  @UseInterceptors(FileInterceptor('avatar'))
-  updateAvatar(
-    @Req() req: Request,
-    @UploadedFile(new FileSizeValidationPipe())
-    file: Express.Multer.File,
-  ) {
-    return this.userService.updateAvatar(req, file);
   }
 
   @UseGuards(JwtAuthGuard)

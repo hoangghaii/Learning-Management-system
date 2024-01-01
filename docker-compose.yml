@@ -1,19 +1,12 @@
-version: '3.8'
-
 services:
- cache:
-  # Adjust the build context to your needs targetting the created Dockerfile
-  build:
-    context: ./dockerfiles/redis
-    dockerfile: Dockerfile
-    image: redis:7.2-alpine
-    restart: always
+  redis:
+    container_name: cache
+    image: redis
     ports:
       - 6379:6379
-    # Run the init script
-    command: sh -c "./init.sh"
-    # Run as privileged to allow the container to change the vm.overcommit_memory setting
-    privileged: true
     volumes:
-      - ./docker/data/redis:/data
+      - redis:/data
 
+volumes:
+  redis:
+    driver: local

@@ -1,5 +1,6 @@
+import { FileUploadedDto } from '@/common/dto/file-uploaded.dto';
 import { UserRole } from '@/consts';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
@@ -8,12 +9,13 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
 
 export class UserDto {
-  @IsString()
-  @IsOptional()
-  avatar: string = '';
+  @ValidateNested()
+  @Type(() => FileUploadedDto)
+  avatar: FileUploadedDto;
 
   @IsEmail()
   @IsNotEmpty()
